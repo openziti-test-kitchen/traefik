@@ -1,0 +1,17 @@
+Zitification
+
+This version of traefik has been updated to allow for promtheus metrics to be exposed over ziti. In order to provide the ziti configuration --entryPoints.{prometheusEntryPointName}.address flag must be set in a certain way. the address format should look something like --entryPoints.prometheus.address=ziti-{serviceName}-{identityFileName}:{anyPort}/tcp. This assumes that the identity file is located in the same directory as traefik is being run from.
+
+Building
+
+in order to build an executible the following command can be executed:
+
+go build -o traefik ./cmd/traefik
+
+traefik has a standard way for building the docker image. running make should create a traefik docker image and include the ziti identity file in the image. Currently build.Dockerfile assumes the ziti identity file can be found at ./traefikPrometheus.json If you want to change the identity file name or path the build.Dockerfile would neeed to be updated.
+
+If the standared methods for building traefik are not working, there is an included ziti.Dockerfile that will build an image and include the ziti identity file on the image. This again assumes that the identity file can be found at ./traefik.Prometheus.json
+
+This image can be built by running
+
+docker build -f new.Dockerfile .

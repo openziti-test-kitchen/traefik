@@ -7,10 +7,14 @@ import (
 	stdlog "log"
 	"net"
 	"net/http"
+	"strings"
 	"sync"
 	"syscall"
 	"time"
 
+	"github.com/openziti/sdk-golang/ziti"
+	"github.com/openziti/sdk-golang/ziti/config"
+	"github.com/openziti/sdk-golang/ziti/edge"
 	"github.com/pires/go-proxyproto"
 	"github.com/sirupsen/logrus"
 	"github.com/traefik/traefik/v2/pkg/config/static"
@@ -345,6 +349,8 @@ func writeCloser(conn net.Conn) (tcp.WriteCloser, error) {
 		return &writeCloserWrapper{writeCloser: underlying, Conn: typedConn}, nil
 	case *net.TCPConn:
 		return typedConn, nil
+	case edge.Conn:
+		return typedConn, nil
 	default:
 		return nil, fmt.Errorf("unknown connection type %T", typedConn)
 	}
@@ -409,12 +415,40 @@ func buildProxyProtocolListener(ctx context.Context, entryPoint *static.EntryPoi
 }
 
 func buildListener(ctx context.Context, entryPoint *static.EntryPoint) (net.Listener, error) {
-	listener, err := net.Listen("tcp", entryPoint.GetAddress())
-	if err != nil {
-		return nil, fmt.Errorf("error opening listener: %w", err)
-	}
+	address := entryPoint.GetAddress()
+	var listener net.Listener
+	var err error
+	if strings.Contains(address, "ziti") {
+		splitAddress := strings.Split(address, ":")
+		entryPoint.Address = ":" + splitAddress[1]
 
-	listener = tcpKeepAliveListener{listener.(*net.TCPListener)}
+		zitiConfigs := strings.Split(splitAddress[0], "-")
+		serviceName := zitiConfigs[1]
+		configFile := zitiConfigs[2]
+		options := &ziti.ListenOptions{
+			ConnectTimeout:        5 * time.Minute,
+			MaxConnections:        3,
+			BindUsingEdgeIdentity: true,
+		}
+
+		zitiCfg, err := config.NewFromFile("./" + configFile + ".json")
+		if err != nil {
+			log.Fatalf("failed to load ziti configuration file: %v", err)
+		}
+		log.Debug("\n\n\n ziti \n\n\n")
+		listener, err = ziti.NewContextWithConfig(zitiCfg).ListenWithOptions(serviceName, options)
+		if err != nil {
+			return nil, fmt.Errorf("error opening listener: %w", err)
+		}
+
+	} else {
+		listener, err = net.Listen("tcp", entryPoint.GetAddress())
+		if err != nil {
+			return nil, fmt.Errorf("error opening listener: %w", err)
+		}
+
+		listener = tcpKeepAliveListener{listener.(*net.TCPListener)}
+	}
 
 	if entryPoint.ProxyProtocol != nil {
 		listener, err = buildProxyProtocolListener(ctx, entryPoint, listener)

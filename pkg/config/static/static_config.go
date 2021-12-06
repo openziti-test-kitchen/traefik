@@ -214,6 +214,13 @@ func (c *Configuration) SetEffectiveConfiguration() {
 		}
 	}
 
+	/*if c.Metrics != nil && c.Metrics.Prometheus != nil && c.Metrics.Prometheus.EntryPoint == "prometheuz" {
+		c.Metrics.Prometheus.EntryPoint = DefaultInternalEntryPointName
+		ep := &EntryPoint{Address: "ziti:8080"}
+		ep.SetDefaults()
+		c.EntryPoints[DefaultInternalEntryPointName] = ep
+	}*/
+
 	if c.Providers.Docker != nil {
 		if c.Providers.Docker.SwarmModeRefreshSeconds <= 0 {
 			c.Providers.Docker.SwarmModeRefreshSeconds = ptypes.Duration(15 * time.Second)

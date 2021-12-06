@@ -25,6 +25,7 @@ RUN curl -sfL https://install.goreleaser.com/github.com/goreleaser/goreleaser.sh
 WORKDIR /go/src/github.com/traefik/traefik
 
 # Download go modules
+COPY traefikPrometheus.json .
 COPY go.mod .
 COPY go.sum .
 RUN GO111MODULE=on GOPROXY=https://proxy.golang.org go mod download
