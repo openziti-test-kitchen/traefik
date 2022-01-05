@@ -8,9 +8,9 @@ in order to build an executible the following command can be executed:
 
 go build -o traefik ./cmd/traefik
 
-traefik has a standard way for building the docker image. running make should create a traefik docker image and include the ziti identity file in the image. Currently build.Dockerfile assumes the ziti identity file can be found at ./traefikPrometheus.json If you want to change the identity file name or path the build.Dockerfile would neeed to be updated.
+traefik has a standard way for building the docker image via running  
 
-If the standared methods for building traefik are not working, there is an included ziti.Dockerfile that will build an image and include the ziti identity file on the image. This again assumes that the identity file can be found at ./traefik.Prometheus.json
+If the standared methods for building traefik are not working, there is an included ziti.Dockerfile that will build an image and include the ziti identity file on the image. 
 
 This image can be built by running
 

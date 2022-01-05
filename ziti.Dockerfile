@@ -18,4 +18,4 @@ RUN go build -o traefik ./cmd/traefik
 VOLUME /tmp
 EXPOSE 80
 ENV PATH="/app/traefik:${PATH}"
-CMD ./traefik
+CMD ./traefik --log.level=DEBUG

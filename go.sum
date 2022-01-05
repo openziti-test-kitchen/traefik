@@ -1030,6 +1030,8 @@ github.com/openzipkin/zipkin-go v0.2.2/go.mod h1:NaW6tEwdmWMaCDZzg8sh+IBNOxHMPnh
 github.com/openziti/dilithium v0.3.3/go.mod h1:vsCjI2AU/hon9e+dLhUFbCNGesJDj2ASgkySOcpmvjo=
 github.com/openziti/foundation v0.16.7 h1:Ryuo4wp5CeXJAZYujbXfxuo6/GPpHnvJimESNTopRFY=
 github.com/openziti/foundation v0.16.7/go.mod h1:DrzmWd4wka7/RlA37KTN2q+dz9dVSH6YJ9VP6xxf28w=
+github.com/openziti/foundation v0.16.9 h1:iAGPDESXRArGJQYBQSOif+fXfwYRxnvBh68tiXKB1g8=
+github.com/openziti/foundation v0.16.9/go.mod h1:DrzmWd4wka7/RlA37KTN2q+dz9dVSH6YJ9VP6xxf28w=
 github.com/openziti/sdk-golang v0.15.116 h1:6/GqsQ4lLw62PZjl0KZyeOgo/1GVgCcX4pBfsZRX2CY=
 github.com/openziti/sdk-golang v0.15.116/go.mod h1:ZI3nT0vQ5UgkvK+7P9sGYWajZSMfvq1J4DZUMZYHmPA=
 github.com/oracle/oci-go-sdk v24.3.0+incompatible h1:x4mcfb4agelf1O4/1/auGlZ1lr97jXRSSN5MxTgG/zU=
