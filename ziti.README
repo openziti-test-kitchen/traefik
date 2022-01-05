@@ -8,9 +8,9 @@ in order to build an executible the following command can be executed:
 
 go build -o traefik ./cmd/traefik
 
-traefik has a standard way for building the docker image via running  
+traefik has a standard way for building the docker image via running the make command 
 
-If the standared methods for building traefik are not working, there is an included ziti.Dockerfile that will build an image and include the ziti identity file on the image. 
+If the standared methods for building traefik are not working, there is an included ziti.Dockerfile that will build an image. 
 
 This image can be built by running
 
