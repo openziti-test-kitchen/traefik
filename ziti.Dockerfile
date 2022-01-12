@@ -1,7 +1,5 @@
 FROM golang
 ENV GO111MODULE=on
-ARG ARCH="amd64"
-ARG OS="linux"
 # ENV GOFLAGS=-mod=vendor
 ENV APP_USER=appuser
 ENV APP_GROUP=appgroup
